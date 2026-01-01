@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFCON 2026 Predictions Hub</title>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Lucide icons as inline SVGs
+        const Trophy = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                <path d="M4 22h16" />
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+            </svg>
+        );
+
+        const Target = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+            </svg>
+        );
+
+        const TrendingUp = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+            </svg>
+        );
+
+        const Award = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <circle cx="12" cy="8" r="6" />
+                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+            </svg>
+        );
+
+        const AfconPredictions = () => {
+            const [predictions, setPredictions] = useState({});
+            const [activeTab, setActiveTab] = useState('matches');
+
+            const teamStats = {
+                'Egypt': { flag: '🇪🇬', titles: 7, winRate: 68, recentForm: 'W-W-D-W-L', lastTitle: 2010 },
+                'Ghana': { flag: '🇬🇭', titles: 4, winRate: 62, recentForm: 'W-D-W-W-D', lastTitle: 1982 },
+                'Senegal': { flag: '🇸🇳', titles: 1, winRate: 64, recentForm: 'W-W-W-D-W', lastTitle: 2021 },
+                'Nigeria': { flag: '🇳🇬', titles: 3, winRate: 65, recentForm: 'W-L-W-W-D', lastTitle: 2013 },
+                'Cameroon': { flag: '🇨🇲', titles: 5, winRate: 66, recentForm: 'D-W-W-L-W', lastTitle: 2017 },
+                'Algeria': { flag: '🇩🇿', titles: 2, winRate: 61, recentForm: 'W-D-D-W-L', lastTitle: 2019 },
+                'Morocco': { flag: '🇲🇦', titles: 1, winRate: 58, recentForm: 'W-W-L-D-W', lastTitle: 1976 },
+                'Ivory Coast': { flag: '🇨🇮', titles: 3, winRate: 63, recentForm: 'W-W-W-W-D', lastTitle: 2023 },
+                'Tunisia': { flag: '🇹🇳', titles: 1, winRate: 56, recentForm: 'D-L-W-D-W', lastTitle: 2004 },
+                'South Africa': { flag: '🇿🇦', titles: 1, winRate: 54, recentForm: 'L-W-D-L-W', lastTitle: 1996 },
+                'Mali': { flag: '🇲🇱', titles: 0, winRate: 52, recentForm: 'W-D-L-W-D', lastTitle: 'N/A' },
+                'Burkina Faso': { flag: '🇧🇫', titles: 0, winRate: 48, recentForm: 'D-L-W-L-D', lastTitle: 'N/A' },
+            };
+
+            const matches = [
+                { id: 1, homeTeam: 'Egypt', awayTeam: 'Ghana', homeFlag: '🇪🇬', awayFlag: '🇬🇭', group: 'Group A', date: 'Jan 15, 2026' },
+                { id: 2, homeTeam: 'Senegal', awayTeam: 'Nigeria', homeFlag: '🇸🇳', awayFlag: '🇳🇬', group: 'Group B', date: 'Jan 15, 2026' },
+                { id: 3, homeTeam: 'Cameroon', awayTeam: 'Algeria', homeFlag: '🇨🇲', awayFlag: '🇩🇿', group: 'Group C', date: 'Jan 16, 2026' },
+                { id: 4, homeTeam: 'Morocco', awayTeam: 'Ivory Coast', homeFlag: '🇲🇦', awayFlag: '🇨🇮', group: 'Group D', date: 'Jan 16, 2026' },
+                { id: 5, homeTeam: 'Tunisia', awayTeam: 'South Africa', homeFlag: '🇹🇳', awayFlag: '🇿🇦', group: 'Group E', date: 'Jan 17, 2026' },
+                { id: 6, homeTeam: 'Mali', awayTeam: 'Burkina Faso', homeFlag: '🇲🇱', awayFlag: '🇧🇫', group: 'Group F', date: 'Jan 17, 2026' },
+            ];
+
+            const handlePrediction = (matchId, result) => {
+                setPredictions(prev => ({
+                    ...prev,
+                    [matchId]: result
+                }));
+            };
+
+            const getPredictionStats = () => {
+                const total = Object.keys(predictions).length;
+                const homeWins = Object.values(predictions).filter(p => p === 'home').length;
+                const draws = Object.values(predictions).filter(p => p === 'draw').length;
+                const awayWins = Object.values(predictions).filter(p => p === 'away').length;
+                return { total, homeWins, draws, awayWins };
+            };
+
+            const stats = getPredictionStats();
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-green-900 via-yellow-800 to-red-900">
+                    <div className="bg-black bg-opacity-50 backdrop-blur-sm border-b border-yellow-500">
+                        <div className="max-w-6xl mx-auto px-4 py-6">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <Trophy size={40} className="text-yellow-400" />
+                                    <div>
+                                        <h1 className="text-3xl font-bold text-white">AFCON 2026</h1>
+                                        <p className="text-yellow-300 text-sm">Predictions Hub</p>
+                                    </div>
+                                </div>
+                                <div className="bg-yellow-500 text-black px-6 py-2 rounded-full font-bold">
+                                    {stats.total} Predictions
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="max-w-6xl mx-auto px-4 mt-6">
+                        <div className="flex gap-4 mb-6 flex-wrap">
+                            <button
+                                onClick={() => setActiveTab('matches')}
+                                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+                                    activeTab === 'matches'
+                                        ? 'bg-yellow-500 text-black shadow-lg'
+                                        : 'bg-black bg-opacity-40 text-white hover:bg-opacity-60'
+                                }`}
+                            >
+                                <Target size={20} />
+                                Make Predictions
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('teamStats')}
+                                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+                                    activeTab === 'teamStats'
+                                        ? 'bg-yellow-500 text-black shadow-lg'
+                                        : 'bg-black bg-opacity-40 text-white hover:bg-opacity-60'
+                                }`}
+                            >
+                                <Award size={20} />
+                                Team Statistics
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('stats')}
+                                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
+                                    activeTab === 'stats'
+                                        ? 'bg-yellow-500 text-black shadow-lg'
+                                        : 'bg-black bg-opacity-40 text-white hover:bg-opacity-60'
+                                }`}
+                            >
+                                <TrendingUp size={20} />
+                                My Stats
+                            </button>
+                        </div>
+
+                        {activeTab === 'matches' && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8">
+                                {matches.map(match => {
+                                    const userPrediction = predictions[match.id];
+                                    const homeStats = teamStats[match.homeTeam];
+                                    const awayStats = teamStats[match.awayTeam];
+                                    
+                                    return (
+                                        <div
+                                            key={match.id}
+                                            className="bg-black bg-opacity-60 backdrop-blur-sm rounded-xl p-6 border border-yellow-500 border-opacity-30 hover:border-opacity-60 transition-all"
+                                        >
+                                            <div className="flex justify-between items-center mb-4">
+                                                <span className="text-yellow-400 text-sm font-semibold">{match.group}</span>
+                                                <span className="text-gray-300 text-sm">{match.date}</span>
+                                            </div>
+
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex-1 text-center">
+                                                    <div className="text-5xl mb-2">{match.homeFlag}</div>
+                                                    <div className="text-white font-bold text-lg">{match.homeTeam}</div>
+                                                    <div className="text-yellow-400 text-xs mt-1">Win Rate: {homeStats.winRate}%</div>
+                                                </div>
+                                                <div className="text-yellow-400 text-2xl font-bold px-4">VS</div>
+                                                <div className="flex-1 text-center">
+                                                    <div className="text-5xl mb-2">{match.awayFlag}</div>
+                                                    <div className="text-white font-bold text-lg">{match.awayTeam}</div>
+                                                    <div className="text-yellow-400 text-xs mt-1">Win Rate: {awayStats.winRate}%</div>
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-3 gap-2">
+                                                <button
+                                                    onClick={() => handlePrediction(match.id, 'home')}
+                                                    className={`py-3 rounded-lg font-semibold transition-all ${
+                                                        userPrediction === 'home'
+                                                            ? 'bg-green-500 text-white shadow-lg scale-105'
+                                                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                                    }`}
+                                                >
+                                                    Home Win
+                                                </button>
+                                                <button
+                                                    onClick={() => handlePrediction(match.id, 'draw')}
+                                                    className={`py-3 rounded-lg font-semibold transition-all ${
+                                                        userPrediction === 'draw'
+                                                            ? 'bg-yellow-500 text-black shadow-lg scale-105'
+                                                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                                    }`}
+                                                >
+                                                    Draw
+                                                </button>
+                                                <button
+                                                    onClick={() => handlePrediction(match.id, 'away')}
+                                                    className={`py-3 rounded-lg font-semibold transition-all ${
+                                                        userPrediction === 'away'
+                                                            ? 'bg-blue-500 text-white shadow-lg scale-105'
+                                                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                                    }`}
+                                                >
+                                                    Away Win
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {activeTab === 'teamStats' && (
+                            <div className="pb-8">
+                                <div className="bg-black bg-opacity-60 backdrop-blur-sm rounded-xl p-8 border border-yellow-500 border-opacity-30 mb-6">
+                                    <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                                        <Award className="text-yellow-400" />
+                                        Tournament Team Statistics
+                                    </h2>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        {Object.entries(teamStats)
+                                            .sort((a, b) => b[1].titles - a[1].titles)
+                                            .map(([team, stats]) => (
+                                            <div key={team} className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-5 border border-yellow-500 border-opacity-20 hover:border-opacity-50 transition-all">
+                                                <div className="flex items-center gap-3 mb-4">
+                                                    <span className="text-4xl">{stats.flag}</span>
+                                                    <div>
+                                                        <h3 className="text-white font-bold text-lg">{team}</h3>
+                                                        <div className="flex items-center gap-1">
+                                                            <Trophy size={14} className="text-yellow-400" />
+                                                            <span className="text-yellow-400 text-sm font-semibold">
+                                                                {stats.titles} {stats.titles === 1 ? 'Title' : 'Titles'}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="space-y-3">
+                                                    <div>
+                                                        <div className="flex justify-between text-sm mb-1">
+                                                            <span className="text-gray-400">Win Rate</span>
+                                                            <span className="text-white font-semibold">{stats.winRate}%</span>
+                                                        </div>
+                                                        <div className="w-full bg-gray-700 rounded-full h-2">
+                                                            <div 
+                                                                className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all"
+                                                                style={{width: `${stats.winRate}%`}}
+                                                            ></div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div>
+                                                        <span className="text-gray-400 text-sm">Recent Form:</span>
+                                                        <div className="flex gap-1 mt-1">
+                                                            {stats.recentForm.split('-').map((result, idx) => (
+                                                                <span 
+                                                                    key={idx}
+                                                                    className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${
+                                                                        result === 'W' ? 'bg-green-500 text-white' :
+                                                                        result === 'D' ? 'bg-yellow-500 text-black' :
+                                                                        'bg-red-500 text-white'
+                                                                    }`}
+                                                                >
+                                                                    {result}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="pt-2 border-t border-gray-700">
+                                                        <span className="text-gray-400 text-xs">Last Title: </span>
+                                                        <span className="text-white text-sm font-semibold">{stats.lastTitle}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'stats' && (
+                            <div className="pb-8">
+                                <div className="bg-black bg-opacity-60 backdrop-blur-sm rounded-xl p-8 border border-yellow-500 border-opacity-30">
+                                    <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                                        <TrendingUp className="text-yellow-400" />
+                                        Your Prediction Statistics
+                                    </h2>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                                        <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg p-6 text-center">
+                                            <div className="text-4xl font-bold text-white mb-2">{stats.total}</div>
+                                            <div className="text-blue-200 text-sm">Total Predictions</div>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-green-600 to-green-800 rounded-lg p-6 text-center">
+                                            <div className="text-4xl font-bold text-white mb-2">{stats.homeWins}</div>
+                                            <div className="text-green-200 text-sm">Home Wins</div>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-lg p-6 text-center">
+                                            <div className="text-4xl font-bold text-white mb-2">{stats.draws}</div>
+                                            <div className="text-yellow-200 text-sm">Draws</div>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg p-6 text-center">
+                                            <div className="text-4xl font-bold text-white mb-2">{stats.awayWins}</div>
+                                            <div className="text-purple-200 text-sm">Away Wins</div>
+                                        </div>
+                                    </div>
+
+                                    {stats.total === 0 ? (
+                                        <div className="text-center py-12">
+                                            <Trophy size={48} className="text-yellow-400 mx-auto mb-4" />
+                                            <p className="text-gray-300 text-lg">No predictions yet! Go make some predictions.</p>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <h3 className="text-xl font-bold text-white mb-4">Your Predictions</h3>
+                                            <div className="space-y-3">
+                                                {matches.map(match => {
+                                                    const pred = predictions[match.id];
+                                                    if (!pred) return null;
+                                                    
+                                                    const predictionText = 
+                                                        pred === 'home' ? `${match.homeTeam} to win` :
+                                                        pred === 'away' ? `${match.awayTeam} to win` :
+                                                        'Draw';
+                                                    
+                                                    return (
+                                                        <div key={match.id} className="bg-gray-800 rounded-lg p-4 flex items-center justify-between">
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="text-2xl">{match.homeFlag}</span>
+                                                                <span className="text-white font-semibold">{match.homeTeam}</span>
+                                                                <span className="text-gray-400">vs</span>
+                                                                <span className="text-2xl">{match.awayFlag}</span>
+                                                                <span className="text-white font-semibold">{match.awayTeam}</span>
+                                                            </div>
+                                                            <div className={`px-4 py-2 rounded-full font-semibold ${
+                                                                pred === 'home' ? 'bg-green-500 text-white' :
+                                                                pred === 'draw' ? 'bg-yellow-500 text-black' :
+                                                                'bg-blue-500 text-white'
+                                                            }`}>
+                                                                {predictionText}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<AfconPredictions />, document.getElementById('root'));
+    </script>
+</body>
+</html>
